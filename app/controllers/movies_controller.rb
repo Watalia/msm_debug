@@ -4,7 +4,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @movie = Movie.find(params[id])
+    @movie = Movie.find_by({:id=>params[:id]})
   end
 
   def new_form
@@ -24,10 +24,11 @@ class MoviesController < ApplicationController
   end
 
   def edit_form
-    @movie = Movie.find(params[:id])
+    @movie = Movie.find_by({:id=>params[:id]})
   end
 
   def update_row
+    @movie = Movie.find_by({:id=>params[:id]})
     @movie.title = params[:title]
     @movie.year = params[:year]
     @movie.duration = params[:duration]
@@ -35,7 +36,10 @@ class MoviesController < ApplicationController
     @movie.image_url = params[:image_url]
     @movie.director_id = params[:director_id]
 
-    render("show")
+    @movie.save
+
+    redirect_to("http://localhost:3000")
+  #  render("show")
   end
 
   def destroy
